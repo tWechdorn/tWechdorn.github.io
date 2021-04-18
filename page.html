@@ -1,100 +1,110 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-    <head>
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@100;500;700&family=Open+Sans&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="page.css">
-        <title>Fractions</title>
-        <script src="page.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    </head>
-    <body>
-        <header>
-            <div class="title">
-            <h1>Brüche</h1> 
-            </div>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="#section 1">Erklärung</a>
-                    </li>
-                    <li>
-                        <a href ="#section 2">Übung</a>
-                    </li>
-                </ul>
-            </nav>
-        </header>
 
-        <section id="section 1">
-            <div class ="title">
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@100;500;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="page.css">
+    <title>Fractions</title>
+    <script src="page.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="title">
+            <h1>Brüche</h1>
+        </div>
+        <nav>
+            <ul>
+                <li>
+                    <a href="#section 1">Erklärung</a>
+                </li>
+                <li>
+                    <a href="#section 2">Übung</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="section 1">
+        <div class="title">
             <h1>Erklärung</h1>
         </div>
         <div class="content">
             <h2>What is a fraction?</h2>
-            
-        <p>A fraction is used to express ratios or proportions. In short, a fraction represents a part of something.</p>
-        <p>Let's cut the apple in half.</p>
-        <!-- Idea: Image of knife and apple, when knife is put over apple, apple is split in half? Next add numerical represantation besides both halves 1/2, 1/2. Then go on with definition-->
-        <div id="canvas"></div>
-        <!--img id ="apple" src="apple.png" alt="Apple" ondrop="drop(event)" ondragover="allowDrop(event)">-->
-        <img id="knife" src ="knife.png" alt="Knife" draggable="true" ondragstart="drag(event)">
 
-        <h2> Definition</h2>
-        <p>Let's take a closer look at the fraction:</p>
-        <p>A fraction always consists of 3 components:</p>
-        <div class="table">
-            <div class="table-row">
-               <div class="table-cell">
-                   <div class="table-content">3</div>
-               </div>
-               <div class="table-cell">
-                   <div class="table-description">A number above the stroke,</div>
+            <p>A fraction is used to express ratios or proportions. In short, a fraction represents a part of something.
+            </p>
+            <p>Let's cut the apple in half.</p>
+            <!-- Idea: Image of knife and apple, when knife is put over apple, apple is split in half? Next add numerical represantation besides both halves 1/2, 1/2. Then go on with definition-->
+            <div id="canvas"></div>
+            <!--img id ="apple" src="apple.png" alt="Apple" ondrop="drop(event)" ondragover="allowDrop(event)">-->
+
+            <div class="hidden">
+                <p> Great! Now we have two halves of one apple. But what does that have to do with fractions? Let's take
+                    a look.
+                </p>
+                <h2> Definition</h2>
+                <p>Let's take a closer look at the fraction:</p>
+                <p>A fraction always consists of 3 components:</p>
+                <div class="table">
+                    <div class="table-row">
+                        <div class="table-cell">
+                            <div class="table-content">3</div>
+                        </div>
+                        <div class="table-cell">
+                            <div class="table-description">A number above the stroke,</div>
+                        </div>
+                    </div>
+                    <div class="table-row">
+                        <div class="table-cell">
+                            <div class="table-content">-</div>
+                        </div>
+                        <div class="table-cell">
+                            <div class="table-description">a stroke</div>
+                        </div>
+                    </div>
+                    <div class="table-row">
+                        <div class="table-cell">
+                            <div class="table-content">4</div>
+                        </div>
+                        <div class="table-cell">
+                            <div class="table-description">and a number below the stroke.</div>
+                        </div>
+                    </div>
                 </div>
+                <!-- Image with each element on the same height as the text the individual elements. Maybe add  -->
+                <h2>Numerator</h2>
+                <p>The above number is called the numerator. This number gives you the quantity, the number. </p>
+                <h2>Stroke</h2>
+                <p>The stroke is called a fraction stroke. The dash has the same meaning as a division. ¾ also means 3 :
+                    4</p>
+                <h2>Denominator</h2>
+                <p>The lower number is called the denominator. It represents the whole.</p>
             </div>
-            <div class="table-row">
-                <div class="table-cell">
-                   <div class="table-content">-</div>
-                </div>
-                <div class="table-cell">
-                    <div class="table-description">a stroke</div>
-                </div>
-             </div>
-             <div class="table-row">
-                <div class="table-cell">
-                    <div class="table-content">4</div>
-                </div>
-                <div class="table-cell">
-                    <div class="table-description">and a number below the stroke.</div>
-                </div>
-             </div>
-            </div>
-          <!-- Image with each element on the same height as the text the individual elements. Maybe add  -->
-          <h2>Numerator</h2>
-          <p>The above number is called the numerator. This number gives you the quantity, the number. </p>
-          <h2>Stroke</h2>
-          <p>The stroke is called a fraction stroke. The dash has the same meaning as a division. ¾ also means 3 : 4</p>
-          <h2>Denominator</h2>
-          <p>The lower number is called the denominator. It represents the whole.</p>
         </div>
-        </section>
+    </section>
 
-        <section id="section 2">
-            <div class="title">
+    <section id="section 2">
+        <div class="title">
             <h1>Übung</h1>
         </div>
         <div class="content">
             <!-- Maybe also make this explanation somehow interactive?  -->
             <h2>Example</h2>
             <p>
-                If you eat about half a pizza, you cut it into two pieces and eat one slice  (1/2). 
-                If you eat one quarter of a pizza, you cut it into four pieces and eat one slice (1/4). 
+                If you eat about half a pizza, you cut it into two pieces and eat one slice (1/2).
+                If you eat one quarter of a pizza, you cut it into four pieces and eat one slice (1/4).
             </p>
             <h2>Exercise</h>
         </div>
-        </section>
+    </section>
 
-    </body>
-    <footer></footer>
+</body>
+<footer></footer>
+
 </html>

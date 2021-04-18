@@ -16,11 +16,13 @@ body {
 header .title{
     background-color:#c72b00;
 }
+
 .title h1{
-        margin-left:32px;
+        /*margin-left:32px;*/
+        margin-left: 0.8em;
         padding-top:0.2em;
         padding-bottom:0.2em;
-     }
+}
 
 h1{
     font-family: 'Exo 2', sans-serif;
@@ -28,32 +30,32 @@ h1{
     color: white;
     font-weight: bold;
     margin: 0em 0em 0em 0em;
- }
+}
 
 
 header {
     background-color: #fff2f2;
     margin: auto;
-    width: 75em;
+    width: 65em;
     padding-top: 0.0em;
     padding-bottom: 1em;
-    border: 0.2em solid rgb(248, 199, 181);
+    border: 0.01em solid rgb(248, 199, 181);
     border-radius: 1em;
 }
 
 
 
- a{
+a {
     font-family: 'Exo 2', sans-serif;
     font-size: 1em;
     color: #c72b00;
     font-weight: bold;
     margin-top: 0.4em;
- }
+}
 section {
     background-color: #fcf5e9;
     margin: auto;
-    width: 75em;
+    width: 65em;
     padding-bottom: 1em;
     margin-top: 1em;
     margin-bottom: 1em;
@@ -62,7 +64,8 @@ section {
 }
 
 .content {
-    margin-left: 32px;
+    margin-left: 2em;
+    margin-right: 2em;
 }
 
 nav {
@@ -70,7 +73,7 @@ nav {
     width: 10em;
     margin-top: 1em;
     margin-bottom: 1em;
-    margin-left: 32px;
+    margin-left: 2em;
     border: 0.01em solid rgb(248, 199, 181);
     border-radius: 1em;
 }
@@ -89,3 +92,21 @@ ul {
 .table-cell {display: table-cell;}
 .table-content {font-size: x-large;}
 .table-description {padding-left: 2em;}
+
+.denominator {
+    border-top: thick solid black;
+}
+
+.fraction {
+    display:inline-block;
+}
+
+.fraction span {
+    font-size: 3em;
+    display:block;
+    margin-top:0.15em;
+}
+
+.hidden{
+    display:none;
+}
