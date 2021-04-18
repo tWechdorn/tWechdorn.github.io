@@ -6,6 +6,10 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+.content img{
+    margin-top:1em;
+}
+
 .title{
     width:100%;
     background-color:#edc478;
@@ -109,4 +113,17 @@ ul {
 
 .hidden{
     display:none;
+}
+
+.contentImg{
+    width:100%;
+}
+
+.exercise{
+    width:100%;
+}
+
+.exerciseBlock{
+    display:inline-block;
+    width:33%;
 }
