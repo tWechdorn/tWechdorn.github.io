@@ -191,9 +191,12 @@ window.onload = function () {
       foodArea.style.backgroundColor = "green";
       spawned = false;
       score += 1;
-      var sol = document.createElement("div");
+      var sol = document.createElement("div");     
       sol.setAttribute("id", "solved"+score);
       sol.setAttribute("class", "solved");
+      placedFood.forEach(function(food){
+        food.setAttribute("style","visibility:hidden");
+      });
       sol.append(...placedFood);
       $("#solved").append(sol);
       foodArea.innerHTML ="";
