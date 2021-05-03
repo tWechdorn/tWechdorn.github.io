@@ -226,10 +226,21 @@ ul {
 
 #exerciseCanvas{
     height:50em;
+    margin: 0 auto;
+    width: 50%;
 }
 
 #exerciseCanvas p{
-    margin: auto;
     visibility: hidden;
 }
 
+#exerciseCanvas *{
+    margin: 0 auto;
+    /*width: 50%;*/
+    /*display: block;*/
+    text-align: center;
+}
+
+#exerciseCanvas input {
+    display: block;
+}
