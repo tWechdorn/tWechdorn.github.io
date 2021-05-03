@@ -127,3 +127,109 @@ ul {
     display:inline-block;
     width:33%;
 }
+
+.playArea {
+    width: 50em;
+}
+
+.target {
+    width: 10em;
+    height: 8em;
+    position: relative;
+} 
+
+#target1 {
+    border: 1px solid rgb(185, 123, 52);
+    margin-right: 15.5em;
+}
+
+#target2 {
+    border: 1px solid rgb(44, 107, 180);
+    margin-right: 15.5em;
+}
+
+#target3 {
+    border: 1px solid rgb(25, 143, 41);
+}
+
+#target4 {
+    border: 1px solid rgb(148, 27, 142);
+}
+
+.foodSpot {
+    width: 10em;
+    height: 8em;
+    position: relative;
+    margin-top: 4em;
+}
+
+#foodSpot1 {
+    margin-right: 15.5em;
+}
+
+#foodSpot2 {
+    margin-right: 15.5em;
+}
+
+
+.item{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+}
+
+.pizza{
+    background: url(testPizza.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:contain;
+}
+
+.melon{
+    background: url(Happy-Watermelon.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:contain;
+}
+
+.cake{
+    background: url(cakeTest.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:contain;
+}
+
+.kidPicture {
+    width: 10em;
+    height: 8em;
+    position: relative;
+    margin-left: -1.5em;
+}
+
+.fractare {
+    margin-left: 4em;
+}
+
+#exercise{
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+#exercise button{
+    width:50%;
+    margin:auto;
+    display:block;
+}
+
+#exerciseCanvas{
+    height:50em;
+}
+
+#exerciseCanvas p{
+    margin: auto;
+    visibility: hidden;
+}
+
