@@ -403,7 +403,7 @@ function generateTask() {
   // Set fraction value and create HTML element
   console.log("numerator" + numerator);
   console.log("denominator" + denominator);
-  randomFraction = 5 / 7;
+  randomFraction = numerator / denominator;
   var block = document.createElement('div');
   block.innerHTML = createFraction(numerator, denominator);
   document.getElementById("fractare4").appendChild(block);
