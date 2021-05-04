@@ -39,7 +39,7 @@ const pizzaId = "foodSpot1";
 const melonId = "foodSpot2";
 const cakeId = "foodSpot3";
 const exerciseId = "foodSpot4";
-const itemTypes = ["pizza","melon","cake"];
+const itemTypes = ["pizza", "melon", "cake"];
 
 
 
@@ -55,23 +55,102 @@ function drop(ev, el) {
   ev.preventDefault();
   var data = ev.dataTransfer.getData("text");
   var droppedObject = document.getElementById(data);
+  var id = el.getAttribute("id")
+  var foodArea;
   switch (el.getAttribute("id")) {
     case "target1":
-      if(droppedObject.getAttribute("class") == "item pizza")
+      if (droppedObject.getAttribute("class") == "item pizza")
         el.appendChild(document.getElementById(data));
+      // pizza section
+      foodArea = document.getElementById("target1");
+      var placedFood = foodArea.childNodes;
+      var sum = 0;
+      placedFood.forEach(function (food) {
+        sum += parseFloat(food.getAttribute("data-size"));
+      });
+      if (sum == fixedFraction1) {
+       foodArea.style.backgroundColor = "green";
+        foodArea.setAttribute("ondrop", "return false");
+        $(".pizza").each(function (index, slice) {
+          slice.setAttribute("draggable", "false");
+        });
+      }
       break;
     case "target2":
-      if(droppedObject.getAttribute("class") == "item melon")
+      if (droppedObject.getAttribute("class") == "item melon")
         el.appendChild(document.getElementById(data));
+      // watermelon section
+      foodArea = document.getElementById("target2");
+      placedFood = foodArea.childNodes;
+      sum = 0;
+      placedFood.forEach(function (food) {
+        sum += parseFloat(food.getAttribute("data-size"));
+      });
+      if (sum == fixedFraction2) {
+        foodArea.style.backgroundColor = "green";
+        foodArea.setAttribute("ondrop", "return false");
+        $(".melon").each(function (index, slice) {
+          slice.setAttribute("draggable", "false");
+        });
+      }
       break;
     case "target3":
-      if(droppedObject.getAttribute("class") == "item cake")
+      if (droppedObject.getAttribute("class") == "item cake")
         el.appendChild(document.getElementById(data));
+      // cake section
+      foodArea = document.getElementById("target3");
+      placedFood = foodArea.childNodes;
+      sum = 0;
+      placedFood.forEach(function (food) {
+        sum += parseFloat(food.getAttribute("data-size"));
+      });
+      if (sum == fixedFraction3) {
+        foodArea.style.backgroundColor = "green";
+        foodArea.setAttribute("ondrop", "return false");
+        $(".cake").each(function (index, slice) {
+          slice.setAttribute("draggable", "false");
+        });
+      }
+      break
+    case "target4":
+       // random exercise section
+    el.appendChild(document.getElementById(data));
+    foodArea = document.getElementById("target4");
+    placedFood = foodArea.childNodes;
+    sum = 0;
+    placedFood.forEach(function (food) {
+      sum += parseFloat(food.getAttribute("data-size"));
+    });
+    if (sum.toFixed(5) == randomFraction.toFixed(5) && spawned) {
+      correct.play();
+      foodArea.style.backgroundColor = "green";
+      spawned = false;
+      score += 1;
+      var sol = document.createElement("div");
+      sol.setAttribute("id", "solved" + score);
+      sol.setAttribute("class", "solved");
+      placedFood.forEach(function (food) {
+        food.setAttribute("style", "visibility:hidden");
+      });
+      sol.append(...placedFood);
+      $("#solved").append(sol);
+      foodArea.innerHTML = "";
+
+      $('#' + exerciseId).empty();
+      document.getElementById("fractare4").innerHTML = "";
+
+      //foodArea.setAttribute("ondrop", "return false");
+      //$(".cake").each(function(index, slice) {
+      //  slice.setAttribute("draggable", "false");
+      //});
+    }
       break;
     default:
       el.appendChild(document.getElementById(data));
       break;
   }
+
+
 }
 function cutApple() {
   if (!appleCut) {
@@ -90,20 +169,22 @@ window.onload = function () {
   var image = draw.image('apple.png');
   image.size(200, 130);
 
-  $(".playArea .foodSpot").each(function (index){
-    drawSectors($( this ).attr("id"), itemTypes[index]);
+  $(".playArea .foodSpot").each(function (index) {
+    drawSectors($(this).attr("id"), itemTypes[index]);
   })
- 
+
 
   //calculating clip-paths. Using the clip-paths somehow does not work when they are generated in realtime
   //calculating the results and then copying them in the html does work tho. 
 
-  /*for (var i = 0; i < maxSliceCount; i++) {
-    angleInDegrees = getAngle(i+1);
+  for (var i = 0; i < maxSliceCount; i++) {
+    angleInDegrees = getAngle(i+1, true, 50);
     getSliceCoords(radius, angleInDegrees);
-    /*var path = document.createElement('path');
+    var path = document.createElement('path');
       
-      path.setAttribute("style", 'fill:none; stroke:#111; stroke-width:1');
+      path.setAttribute('fill', 'none');
+      path.setAttribute('stroke', '#111');
+      path.setAttribute('stroke-width','1');
       path.setAttribute("class","sector");
     if ((i+1) == 1) {
      path.setAttribute('d', 'M' + menuCenter.x + ',' + menuCenter.y + ' l' + radius + ',0 A' + radius + ',' + radius + ' 0 1,0 ' + coords.x + ',' + (coords.y + 0.0001) + ' z');
@@ -111,105 +192,27 @@ window.onload = function () {
     else {
       path.setAttribute('d', 'M' + menuCenter.x + ',' + menuCenter.y + ' l' + radius + ',0 A' + radius + ',' + radius + ' 0 0,0 ' + coords.x + ',' + coords.y + ' z');
     }
-    $('#sector'+(i+1)).append(path);
-  }*/
- 
+    var clipPath = document.createElement('clipPath');
+    clipPath.setAttribute("clipPathUnits","objectBoundingBox");
+    clipPath.setAttribute("id", 'sector'+(i+1));
+    clipPath.appendChild(path);
+    $('defs').append(clipPath);
+  }
+
   // make nice looking fractions for html
   var block = document.createElement('div');
   block.innerHTML = createFraction(1, 2);
   document.getElementById("fractare1").appendChild(block);
 
-  
+
   var block = document.createElement('div');
   block.innerHTML = createFraction(3, 4);
   document.getElementById("fractare2").appendChild(block);
 
-  
+
   var block = document.createElement('div');
   block.innerHTML = createFraction(5, 8);
   document.getElementById("fractare3").appendChild(block);
-
-  window.setInterval(() => {
-    // pizza section
-    let foodArea = document.getElementById("target1");
-    var placedFood = foodArea.childNodes;
-    var sum = 0;
-    placedFood.forEach(function(food) {
-      sum += parseFloat(food.getAttribute("data-size"));
-    });
-    if(sum == fixedFraction1)
-    {
-      foodArea.style.backgroundColor = "green";
-      foodArea.setAttribute("ondrop", "return false");
-      $(".pizza").each(function(index, slice) {
-        slice.setAttribute("draggable", "false");
-      });
-    }
-
-    // watermelon section
-    foodArea = document.getElementById("target2");
-    placedFood = foodArea.childNodes;
-    sum = 0;
-    placedFood.forEach(function(food) {
-      sum += parseFloat(food.getAttribute("data-size"));
-    });
-    if(sum == fixedFraction2)
-    {
-      foodArea.style.backgroundColor = "green";
-      foodArea.setAttribute("ondrop", "return false");
-      $(".melon").each(function(index, slice) {
-        slice.setAttribute("draggable", "false");
-      });
-    }
-
-    // cake section
-    foodArea = document.getElementById("target3");
-    placedFood = foodArea.childNodes;
-    sum = 0;
-    placedFood.forEach(function(food) {
-      sum += parseFloat(food.getAttribute("data-size"));
-    });
-    if(sum == fixedFraction3)
-    {
-      foodArea.style.backgroundColor = "green";
-      foodArea.setAttribute("ondrop", "return false");
-      $(".cake").each(function(index, slice) {
-        slice.setAttribute("draggable", "false");
-      });
-    }
-
-    // random exercise section
-    foodArea = document.getElementById("target4");
-    placedFood = foodArea.childNodes;
-    sum = 0;
-    placedFood.forEach(function(food) {
-      sum += parseFloat(food.getAttribute("data-size"));
-    });
-    if(sum == randomFraction && spawned)
-    {
-      correct.play();
-      foodArea.style.backgroundColor = "green";
-      spawned = false;
-      score += 1;
-      var sol = document.createElement("div");     
-      sol.setAttribute("id", "solved"+score);
-      sol.setAttribute("class", "solved");
-      placedFood.forEach(function(food){
-        food.setAttribute("style","visibility:hidden");
-      });
-      sol.append(...placedFood);
-      $("#solved").append(sol);
-      foodArea.innerHTML ="";
-      
-      $('#'+exerciseId).empty();
-      document.getElementById("fractare4").innerHTML = "";
-      
-      //foodArea.setAttribute("ondrop", "return false");
-      //$(".cake").each(function(index, slice) {
-      //  slice.setAttribute("draggable", "false");
-      //});
-    }
-  }, 500);
 
 }
 
@@ -240,187 +243,182 @@ function startTimer() {
   }, 1000);
 }
 
-  function cut(event) {
-    var values = 0;
-    var eventId = event.currentTarget.id;
-    var itemType = "";
-    $( "#"+eventId +" .item").each(function( index ) {
-      console.log($(this).attr("data-size"));
-      values += parseFloat($( this ).attr("data-size"));
-      itemType = $(this).attr("class").split(' ')[1];
-    });
-    
-    if(eventId == pizzaId){
-      if (pizzaSliceCount < 8 && values.toFixed(2) == 1) {
-        pizzaSliceCount += 1;
-        angleInDegrees = getAngle(pizzaSliceCount);
-        drawSectors(event.currentTarget.id, itemType);
-      }
+function cut(event) {
+  var values = 0;
+  var eventId = event.currentTarget.id;
+  var itemType = "";
+  $("#" + eventId + " .item").each(function (index) {
+    console.log($(this).attr("data-size"));
+    values += parseFloat($(this).attr("data-size"));
+    itemType = $(this).attr("class").split(' ')[1];
+  });
+
+  if (eventId == pizzaId) {
+    if (pizzaSliceCount < 8 && values.toFixed(2) == 1) {
+      pizzaSliceCount += 1;
+      drawSectors(event.currentTarget.id, itemType);
     }
-    else if(eventId == melonId){
-      if (melonSliceCount < 8 && values.toFixed(2) == 1) {
-        melonSliceCount += 1;
-        angleInDegrees = getAngle(melonSliceCount);
-        drawSectors(event.currentTarget.id, itemType);
-      }
-    }
-    else if(eventId == cakeId){
-      if (cakeSliceCount < 8 && values.toFixed(2) == 1) {
-        cakeSliceCount += 1;
-        angleInDegrees = getAngle(cakeSliceCount);
-        drawSectors(event.currentTarget.id,itemType);
-      }
-    }
-      else if(eventId == exerciseId){
-        if (exerciseSliceCount < 8 && values.toFixed(2) == 1) {
-          exerciseSliceCount += 1;
-          angleInDegrees = getAngle(exerciseSliceCount);
-          
-          drawSectors(event.currentTarget.id, itemType, true);
-      }
-    }
- 
   }
-
-
-
-  function getSliceCoords(radius, angle) {
-    angleInRadians = -angle * Math.PI / 180.0;
-    coords.x = menuCenter.x + radius * Math.cos(angleInRadians);
-    coords.y = menuCenter.y + radius * Math.sin(angleInRadians);
+  else if (eventId == melonId) {
+    if (melonSliceCount < 8 && values.toFixed(2) == 1) {
+      melonSliceCount += 1;
+      drawSectors(event.currentTarget.id, itemType);
+    }
   }
-
-  function drawSectors(spotId, itemToSpawn, isExercise) {
-
-    var sliceNum = 0;
-    var additionalClass = itemToSpawn;
-    var id = "";
-    if(itemToSpawn == itemTypes[0]){
-      sliceNum = pizzaSliceCount;
-      additionalClass = "pizza";
+  else if (eventId == cakeId) {
+    if (cakeSliceCount < 8 && values.toFixed(2) == 1) {
+      cakeSliceCount += 1;
+      drawSectors(event.currentTarget.id, itemType);
     }
-    else if(itemToSpawn == itemTypes[1]){
-      sliceNum = melonSliceCount;
-      additionalClass = "melon";
-    }
-    else if(itemToSpawn == itemTypes[2]){
-      sliceNum = cakeSliceCount;
-      additionalClass = "cake";
-    }
-
-    id = additionalClass;
-    
-    if(isExercise){
-      sliceNum = exerciseSliceCount;
-      id += "exercise";
-    }
-
-    var anchor = document.createElement("div");
-    anchor.setAttribute('class', 'item ' + additionalClass);
-    anchor.setAttribute('id', id + sliceNum)
-    anchor.setAttribute('draggable', 'true');
-    anchor.setAttribute('ondragstart','drag(event)');
-    $("#"+spotId).append(anchor);
-    $("#"+spotId).append(document.createTextNode("\t\t"));
-    $("#"+spotId).append(document.createTextNode("\n"));
-   
-
-    for (var i = 0; i < sliceNum; i++) {
-
-      anchor = $('#'+id+(i+1));
-      anchor.attr('data-size', 1/sliceNum);
-      anchor.attr('style', 'clip-path:url(#sector'+sliceNum+'); transform:rotate(' + getAngle(sliceNum) * i + 'deg); visibility:visible');
+  }
+  else if (eventId == exerciseId) {
+    if (exerciseSliceCount < 8 && values.toFixed(2) == 1) {
+      exerciseSliceCount += 1;
+      drawSectors(event.currentTarget.id, itemType, true);
     }
   }
 
-  
+}
 
 
-  function getAngle(sliceCount) {
-    //calculate angle without gaps
-    let angle = 360 / sliceCount;
-    return angle;
-    //calculate angle with gaps—the angle needs to be smaller to fit the gaps in
-    /*}else if (typeOfCircle == "fullCircle" && gaps === true) {
-        angle = 360 / nbOfSlices - (360 / nbOfSlices / gap);
-    }*/
+
+function getSliceCoords(radius, angle) {
+  angleInRadians = -angle * Math.PI / 180.0;
+  coords.x = menuCenter.x + radius * Math.cos(angleInRadians);
+  coords.y = menuCenter.y + radius * Math.sin(angleInRadians);
+}
+
+function drawSectors(spotId, itemToSpawn, isExercise) {
+
+  var sliceNum = 0;
+  var additionalClass = itemToSpawn;
+  var id = "";
+  if (itemToSpawn == itemTypes[0]) {
+    sliceNum = pizzaSliceCount;
+    additionalClass = "pizza";
+  }
+  else if (itemToSpawn == itemTypes[1]) {
+    sliceNum = melonSliceCount;
+    additionalClass = "melon";
+  }
+  else if (itemToSpawn == itemTypes[2]) {
+    sliceNum = cakeSliceCount;
+    additionalClass = "cake";
   }
 
-  function startGame(){
-    //TODO: DELETE elements in solution
-    var timeLeft = 5;
-    $("button").attr("style","visibility:hidden");
-    $("#exerciseCanvas > p").attr("style","visibility:visible");
-    var downloadTimer = setInterval(function(){
-      if(timeLeft <= 0){
-        $("#exerciseCanvas *").attr("style","visibility:visible");
-        $("#exerciseCanvas > p").attr("style","visibility:hidden");
-        clearInterval(downloadTimer);
-        // start 90 seconds game timer
-        startTimer();
-        manageExercise();
-      }
-      $("#exerciseCanvas > p").text(timeLeft);
-      timeLeft -= 1;
-    }, 1000);
+  id = additionalClass;
+
+  if (isExercise) {
+    sliceNum = exerciseSliceCount;
+    id += "exercise";
   }
 
-  function manageExercise() {
-    initialized = false;
-    score = 0;
-    var target = document.getElementById("target4");
-    gameInterval = setInterval(() => {
-      if(!initialized) {
-        generateTask()
-        initialized = true;
-        spawned = true;
-      }
-      if(target.style.backgroundColor == "green" && !spawned) {
-        target.style.backgroundColor = "white";
-        generateTask();
-        spawned = true;
-      }
-      if (timeLeft <= 0) {
-        document.getElementById("scorefield").innerHTML = "Your score: " + score;
-        $("button").attr("style","visibility:visible");
-        target.innerHTML ="";
-        $('#'+exerciseId).empty();
-        document.getElementById("fractare4").innerHTML = "";
-        clearInterval(gameInterval);
-        timeLeft = TIME_LIMIT;
-        timePassed = 0;
-      }
-    }, 1000);
+  var anchor = document.createElement("div");
+  anchor.setAttribute('class', 'item ' + additionalClass);
+  anchor.setAttribute('id', id + sliceNum)
+  anchor.setAttribute('draggable', 'true');
+  anchor.setAttribute('ondragstart', 'drag(event)');
+  $("#" + spotId).append(anchor);
+  $("#" + spotId).append(document.createTextNode("\t\t"));
+  $("#" + spotId).append(document.createTextNode("\n"));
+
+
+  for (var i = 0; i < sliceNum; i++) {
+
+    anchor = $('#' + id + (i + 1));
+    anchor.attr('data-size', 1 / sliceNum);
+    anchor.attr('style', 'clip-path:url(#sector' + sliceNum + '); transform:rotate(' + getAngle(sliceNum) * i + 'deg); visibility:visible');
   }
+}
 
-  function generateTask() {
-    // Generate random numbers
-    var childNumber = Math.floor(Math.random() * 3);
-    var foodNumber = Math.floor(Math.random() * 3);
-    var denominator = Math.floor(Math.random() * 8) + 1;
-    var numerator = Math.floor(Math.random() * denominator) + 1;
 
-    exerciseSliceCount = 1;
 
-    // Set fraction value and create HTML element
-    console.log("numerator" + numerator);
-    console.log("denominator" + denominator);
-    randomFraction = numerator / denominator;
-    var block = document.createElement('div');
-    block.innerHTML = createFraction(numerator, denominator);
-    document.getElementById("fractare4").appendChild(block);
-    
-    // Set child image
-    // TODO: use childNumber to get one of three images
 
-    drawSectors(exerciseId, itemTypes[foodNumber], true);
+function getAngle(sliceCount, gaps, gapVal) {
+  //calculate angle without gaps
+  if(gaps && sliceCount != 1){
+    return angle = 360 / sliceCount - (360 / sliceCount / gapVal);
   }
-
-  function resetItem(){
-    let item = $('#'+exerciseId + ' .item');
-    let itemType = item.attr("class").split(' ')[1];
-    $('#target4').empty();
-    $('#'+exerciseId).empty();
-    exerciseSliceCount = 1;
-    drawSectors(exerciseId, itemType, true);
+  else{
+    return 360/sliceCount;
   }
+}
+
+function startGame() {
+  //TODO: DELETE elements in solution
+  var timeLeft = 5;
+  $("button").attr("style", "visibility:hidden");
+  $("#exerciseCanvas > p").attr("style", "visibility:visible");
+  var downloadTimer = setInterval(function () {
+    if (timeLeft <= 0) {
+      $("#exerciseCanvas *").attr("style", "visibility:visible");
+      $("#exerciseCanvas > p").attr("style", "visibility:hidden");
+      clearInterval(downloadTimer);
+      // start 90 seconds game timer
+      startTimer();
+      manageExercise();
+    }
+    $("#exerciseCanvas > p").text(timeLeft);
+    timeLeft -= 1;
+  }, 1000);
+}
+
+function manageExercise() {
+  initialized = false;
+  score = 0;
+  var target = document.getElementById("target4");
+  gameInterval = setInterval(() => {
+    if (!initialized) {
+      generateTask()
+      initialized = true;
+      spawned = true;
+    }
+    if (target.style.backgroundColor == "green" && !spawned) {
+      target.style.backgroundColor = "white";
+      generateTask();
+      spawned = true;
+    }
+    if (timeLeft <= 0) {
+      document.getElementById("scorefield").innerHTML = "Your score: " + score;
+      $("button").attr("style", "visibility:visible");
+      target.innerHTML = "";
+      $('#' + exerciseId).empty();
+      document.getElementById("fractare4").innerHTML = "";
+      clearInterval(gameInterval);
+      timeLeft = TIME_LIMIT;
+      timePassed = 0;
+    }
+  }, 1000);
+}
+
+function generateTask() {
+  // Generate random numbers
+  var childNumber = Math.floor(Math.random() * 3);
+  var foodNumber = Math.floor(Math.random() * 3);
+  var denominator = Math.floor(Math.random() * 8) + 1;
+  var numerator = Math.floor(Math.random() * denominator) + 1;
+
+  exerciseSliceCount = 1;
+
+  // Set fraction value and create HTML element
+  console.log("numerator" + numerator);
+  console.log("denominator" + denominator);
+  randomFraction = 5 / 7;
+  var block = document.createElement('div');
+  block.innerHTML = createFraction(numerator, denominator);
+  document.getElementById("fractare4").appendChild(block);
+
+  // Set child image
+  // TODO: use childNumber to get one of three images
+
+  drawSectors(exerciseId, itemTypes[foodNumber], true);
+}
+
+function resetItem() {
+  let item = $('#' + exerciseId + ' .item');
+  let itemType = item.attr("class").split(' ')[1];
+  $('#target4').empty();
+  $('#' + exerciseId).empty();
+  exerciseSliceCount = 1;
+  drawSectors(exerciseId, itemType, true);
+}
