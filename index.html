@@ -40,7 +40,7 @@
             <p> Ein Bruch wird verwendet, um Verhältnisse oder Proportionen auszudrücken. Kurz gesagt, ein Bruch stellt
                 einen Teil von etwas dar.
             </p>
-            <p>Schneide den Apfel in der Hälfte durch!</p>
+            <p>Schneide den Apfel (mit einem Klick) in der Hälfte durch!</p>
             <!-- Idea: Image of knife and apple, when knife is put over apple, apple is split in half? Next add numerical represantation besides both halves 1/2, 1/2. Then go on with definition-->
             <div id="canvas"></div>
             <!--img id ="apple" src="apple.png" alt="Apple" ondrop="drop(event)" ondragover="allowDrop(event)">-->
@@ -140,7 +140,7 @@
                         <div class="table">
                             <div class="table-row">
                                 <div class="table-cell">
-                                    <img src="andross.png" class="kidPicture">
+                                    <img src="kid1.png" class="kidPicture">
                                 </div>
                                 <div class="table-cell" id="fractare1" class="fractare">
                                 </div>
@@ -151,7 +151,7 @@
                         <div class="table">
                             <div class="table-row">
                                 <div class="table-cell">
-                                    <img src="andross.png" class="kidPicture">
+                                    <img src="kid2.png" class="kidPicture">
                                 </div>
                                 <div class="table-cell" id="fractare2" class="fractare">
                                 </div>
@@ -162,7 +162,7 @@
                         <div class="table">
                             <div class="table-row">
                                 <div class="table-cell">
-                                    <img src="andross.png" class="kidPicture">
+                                    <img src="kid3.png" class="kidPicture">
                                 </div>
                                 <div class="table-cell" id="fractare3" class="fractare">
                                 </div>
@@ -184,17 +184,17 @@
                 <div class="table-row">
                     <div class="table-cell">
                         <div class="foodSpot" id="foodSpot1" ondrop="drop(event, this)" ondragover="allowDrop(event)"
-                            onclick="cut(event)">
+                            onclick="cut(event)" onmouseover="checkCutable(event)">
                         </div>
                     </div>
                     <div class="table-cell">
                         <div class="foodSpot" id="foodSpot2" ondrop="drop(event, this)" ondragover="allowDrop(event)"
-                            onclick="cut(event)">
+                            onclick="cut(event)" onmouseover="checkCutable(event)"">
                         </div>
                     </div>
                     <div class="table-cell">
                         <div class="foodSpot" id="foodSpot3" ondrop="drop(event, this)" ondragover="allowDrop(event)"
-                            onclick="cut(event)">
+                            onclick="cut(event)" onmouseover="checkCutable(event)"">
                         </div>
                     </div>
                 </div>
@@ -215,7 +215,7 @@
                 <div class="table">
                     <div class="table-row">
                         <div class="table-cell">
-                            <img src="andross.png" class="kidPicture">
+                            <img src="kid1.png" id="randomKid" class="kidPicture">
                         </div>
                         <div class="table-cell">
                             <div id="fractare4" class="fractare"></div>
@@ -224,8 +224,8 @@
                 </div>
                 <div class="target" id="target4" ondrop="drop(event, this)" ondragover="allowDrop(event)"></div>
                 <div class="foodSpot" id="foodSpot4" ondrop="drop(event, this)" ondragover="allowDrop(event)"
-                    onclick="cut(event)"></div>
-                <input type="image" src="trashCan.png" name="submit" width="50em" height="50em" alt="submit"
+                    onclick="cut(event)" onmouseover="checkCutable(event)"></div>
+                <input type="image" id="trash" src="trashCan.png" name="submit" width="50em" height="50em" alt="submit"
                     onclick="resetItem()" />
                 <div id="scorefield"></div>
             </div>

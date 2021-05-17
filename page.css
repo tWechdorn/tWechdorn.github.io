@@ -155,6 +155,7 @@ ul {
 #target4 {
     border: 1px solid rgb(148, 27, 142);
     margin-top: 1em;
+    visibility: hidden;
 }
 
 .foodSpot {
@@ -182,29 +183,29 @@ ul {
 }
 
 .pizza{
-    background: url(testPizza.png);
+    background: url(pizza.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size:contain;
 }
 
 .melon{
-    background: url(Happy-Watermelon.png);
+    background: url(melon.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size:contain;
 }
 
 .cake{
-    background: url(cakeTest.png);
+    background: url(cake.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size:contain;
 }
 
 .kidPicture {
-    width: 10em;
-    height: 8em;
+    width: 5em;
+    height: 10em;
     position: relative;
     margin-left: -1.5em;
 }
@@ -226,7 +227,6 @@ ul {
 }
 
 #exerciseCanvas{
-    height:50em;
     margin: 0 auto;
     width: 50%;
 }
@@ -251,8 +251,34 @@ ul {
 
 #fractare4 {
     margin-top: 1em;
+    /*visibility: hidden;*/
 }
 
-#foodSpot4{
+#foodSpot4 {
     margin-top: 4em;
+    visibility: hidden;
+}
+
+#randomKid {
+    visibility: hidden;
+    opacity: 0;
+}
+
+#trash {
+    visibility: hidden;
+}
+
+.solved{
+    position: relative;
+    width: 10em;
+    height: 8em;
+    display:inline-block;
+}
+
+.cutable{
+    cursor: url(knife.png) 32 32,auto;
+}
+
+.grabable {
+    cursor: grabbing;
 }

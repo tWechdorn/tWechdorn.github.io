@@ -3,8 +3,10 @@ var appleCut = false;
 var score = 0;
 var initialized = false;
 var spawned = false;
+var numerator = 0;
+const LEVSCORING = true;
 
-const TIME_LIMIT = 20;
+const TIME_LIMIT = 60;
 let timePassed = 0;
 let timeLeft = TIME_LIMIT;
 let timerInterval = null;
@@ -59,8 +61,9 @@ function drop(ev, el) {
   var foodArea;
   switch (el.getAttribute("id")) {
     case "target1":
-      if (droppedObject.getAttribute("class") == "item pizza")
+      if (droppedObject.getAttribute("class").includes("item pizza"))
         el.appendChild(document.getElementById(data));
+        droppedObject.classList.remove("cutable");
       // pizza section
       foodArea = document.getElementById("target1");
       var placedFood = foodArea.childNodes;
@@ -77,7 +80,7 @@ function drop(ev, el) {
       }
       break;
     case "target2":
-      if (droppedObject.getAttribute("class") == "item melon")
+      if (droppedObject.getAttribute("class").includes("item melon"))
         el.appendChild(document.getElementById(data));
       // watermelon section
       foodArea = document.getElementById("target2");
@@ -95,7 +98,7 @@ function drop(ev, el) {
       }
       break;
     case "target3":
-      if (droppedObject.getAttribute("class") == "item cake")
+      if (droppedObject.getAttribute("class").includes("item cake"))
         el.appendChild(document.getElementById(data));
       // cake section
       foodArea = document.getElementById("target3");
@@ -125,12 +128,18 @@ function drop(ev, el) {
       correct.play();
       foodArea.style.backgroundColor = "green";
       spawned = false;
-      score += 1;
+      if(LEVSCORING) {
+        score += numerator;
+      }
+      else {
+        score += 1;
+      }
       var sol = document.createElement("div");
       sol.setAttribute("id", "solved" + score);
       sol.setAttribute("class", "solved");
       placedFood.forEach(function (food) {
-        food.setAttribute("style", "visibility:hidden");
+        food.style["visibility"] = 'hidden';
+        food.setAttribute("draggable", "false");
       });
       sol.append(...placedFood);
       $("#solved").append(sol);
@@ -154,9 +163,12 @@ function drop(ev, el) {
 }
 function cutApple() {
   if (!appleCut) {
+    $("#svg").remove();
     $('#canvas').prepend(createFraction(1, 2));
     var draw = SVG().addTo('#canvas').size(200, 130);
-    let img = draw.image('apple.png').size(200, 130);
+    let img = draw.image('apple_half.png').size(200, 130);
+    draw = SVG().addTo('#canvas').size(200, 130);
+    img = draw.image('apple_half.png').size(200, 130);
     $('#canvas').append(createFraction(1, 2));
     appleCut = true;
     $('.hidden').css("display", "inline");
@@ -177,7 +189,7 @@ window.onload = function () {
   //calculating clip-paths. Using the clip-paths somehow does not work when they are generated in realtime
   //calculating the results and then copying them in the html does work tho. 
 
-  for (var i = 0; i < maxSliceCount; i++) {
+  /*for (var i = 0; i < maxSliceCount; i++) {
     angleInDegrees = getAngle(i+1, true, 50);
     getSliceCoords(radius, angleInDegrees);
     var path = document.createElement('path');
@@ -197,7 +209,7 @@ window.onload = function () {
     clipPath.setAttribute("id", 'sector'+(i+1));
     clipPath.appendChild(path);
     $('defs').append(clipPath);
-  }
+  }*/
 
   // make nice looking fractions for html
   var block = document.createElement('div');
@@ -213,7 +225,6 @@ window.onload = function () {
   var block = document.createElement('div');
   block.innerHTML = createFraction(5, 8);
   document.getElementById("fractare3").appendChild(block);
-
 }
 
 function createFraction(numerator, denominator) {
@@ -238,6 +249,9 @@ function startTimer() {
     if (timeLeft <= 0) {
       //timeLeft = 0;
       clearInterval(timerInterval);
+      hideRandomElements();
+      showResult();
+ 
     }
     document.getElementById("timerfield").innerHTML = formatTimeLeft(timeLeft);
   }, 1000);
@@ -345,10 +359,13 @@ function getAngle(sliceCount, gaps, gapVal) {
 }
 
 function startGame() {
-  //TODO: DELETE elements in solution
+  $("#solved").empty();
   var timeLeft = 5;
-  $("button").attr("style", "visibility:hidden");
+  $("#exerciseCanvas > p").text(timeLeft);
+  $("button").attr("style", "display:none");
+  $("#exerciseCanvas").attr("style", "height:50em");
   $("#exerciseCanvas > p").attr("style", "visibility:visible");
+  document.getElementById("scorefield").style['display'] = 'none';
   var downloadTimer = setInterval(function () {
     if (timeLeft <= 0) {
       $("#exerciseCanvas *").attr("style", "visibility:visible");
@@ -356,6 +373,7 @@ function startGame() {
       clearInterval(downloadTimer);
       // start 90 seconds game timer
       startTimer();
+      showRandomElements();
       manageExercise();
     }
     $("#exerciseCanvas > p").text(timeLeft);
@@ -380,7 +398,7 @@ function manageExercise() {
     }
     if (timeLeft <= 0) {
       document.getElementById("scorefield").innerHTML = "Your score: " + score;
-      $("button").attr("style", "visibility:visible");
+      $("button").attr("style", "display:block");
       target.innerHTML = "";
       $('#' + exerciseId).empty();
       document.getElementById("fractare4").innerHTML = "";
@@ -396,7 +414,7 @@ function generateTask() {
   var childNumber = Math.floor(Math.random() * 3);
   var foodNumber = Math.floor(Math.random() * 3);
   var denominator = Math.floor(Math.random() * 8) + 1;
-  var numerator = Math.floor(Math.random() * denominator) + 1;
+  numerator = Math.floor(Math.random() * denominator) + 1;
 
   exerciseSliceCount = 1;
 
@@ -409,7 +427,17 @@ function generateTask() {
   document.getElementById("fractare4").appendChild(block);
 
   // Set child image
-  // TODO: use childNumber to get one of three images
+  var randomPicture = document.getElementById("randomKid");
+  if (childNumber == 0) {
+    randomPicture.setAttribute("src", "kid1.png");
+  }
+  else if(childNumber == 1) {
+    randomPicture.setAttribute("src", "kid2.png");
+  }
+  else if(childNumber == 2) {
+    randomPicture.setAttribute("src", "kid3.png");
+  }
+  randomPicture.style.opacity = "1.0";
 
   drawSectors(exerciseId, itemTypes[foodNumber], true);
 }
@@ -421,4 +449,62 @@ function resetItem() {
   $('#' + exerciseId).empty();
   exerciseSliceCount = 1;
   drawSectors(exerciseId, itemType, true);
+}
+
+function checkCutable(event) {
+  var eventId = event.currentTarget.id;
+  var values = 0;
+  $("#" + eventId + " .item").each(function (index) {
+    console.log($(this).attr("data-size"));
+    values += parseFloat($(this).attr("data-size"));
+  });
+  if(values.toFixed(2) == 1){
+    $("#" + eventId + " .item").each(function (index) {
+      $(this).removeClass("grabable");
+      $(this).addClass("cutable");
+    });
+  }
+  else{
+    $("#" + eventId + " .item").each(function (index) {
+      $(this).removeClass("cutable");
+      $(this).addClass("grabable");
+    });
+  }
+
+
+}
+
+function showResult(){
+  $('#solved .solved .item').each( function(index){
+    var elem = this;
+    setTimeout( function(){  elem.style['visibility'] = 'visible'; }, index * 200 )
+});
+}
+
+/*function showRandomElements() {
+  document.getElementById("trash").style['visibility'] = 'visible';
+  document.getElementById("scorefield").style['visibility'] = 'hidden';
+}
+
+function hideRandomElements() {
+  document.getElementById("randomKid").style['visibility'] = 'hidden';
+  document.getElementById("target4").style['visibility'] = 'hidden';
+  document.getElementById("trash").style['visibility'] = 'hidden';
+  document.getElementById("timerfield").style['visibility'] = 'hidden';
+  document.getElementById("scorefield").style['visibility'] = 'visible';
+}*/
+
+function showRandomElements() {
+  document.getElementById("trash").style['display'] = 'block';
+}
+
+function hideRandomElements() {
+  document.getElementById("randomKid").style['display'] = 'none';
+  document.getElementById("fractare4").style['display'] = 'none';
+  document.getElementById("foodSpot4").style['display'] = 'none';
+  document.getElementById("target4").style['display'] = 'none';
+  document.getElementById("trash").style['display'] = 'none';
+  document.getElementById("timerfield").style['display'] = 'none';
+  document.getElementById("scorefield").style['display'] = 'block';
+  $("#exerciseCanvas").css("height", "6em");
 }
