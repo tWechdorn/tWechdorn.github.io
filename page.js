@@ -397,7 +397,7 @@ function manageExercise() {
       spawned = true;
     }
     if (timeLeft <= 0) {
-      document.getElementById("scorefield").innerHTML = "Your score: " + score;
+      document.getElementById("scorefield").innerHTML = "Deine Punktzahl: " + score;
       $("button").attr("style", "display:block");
       target.innerHTML = "";
       $('#' + exerciseId).empty();
@@ -496,6 +496,8 @@ function hideRandomElements() {
 
 function showRandomElements() {
   document.getElementById("trash").style['display'] = 'block';
+  document.getElementById("scorefield").style['display'] = 'none';
+  document.getElementById("target4").style['display'] = 'block';
 }
 
 function hideRandomElements() {
