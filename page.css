@@ -282,3 +282,7 @@ ul {
 .grabable {
     cursor: grabbing;
 }
+
+.solved{
+    margin-top:0.5em;
+}

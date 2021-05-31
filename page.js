@@ -12,10 +12,14 @@ let timeLeft = TIME_LIMIT;
 let timerInterval = null;
 
 const fixedFraction1 = 0.5;
+const denom1 = 2;
 const fixedFraction2 = 0.75;
+const denom2 = 4;
 const fixedFraction3 = 0.625;
+const denom3 = 8;
 var randomFraction = 0;
 var correct = new Audio('correct.wav');
+var denominator;
 
 
 var menuCenter = {
@@ -57,13 +61,13 @@ function drop(ev, el) {
   ev.preventDefault();
   var data = ev.dataTransfer.getData("text");
   var droppedObject = document.getElementById(data);
+  droppedObject.classList.remove("cutable");
   var id = el.getAttribute("id")
   var foodArea;
   switch (el.getAttribute("id")) {
     case "target1":
       if (droppedObject.getAttribute("class").includes("item pizza"))
         el.appendChild(document.getElementById(data));
-        droppedObject.classList.remove("cutable");
       // pizza section
       foodArea = document.getElementById("target1");
       var placedFood = foodArea.childNodes;
@@ -140,6 +144,9 @@ function drop(ev, el) {
       placedFood.forEach(function (food) {
         food.style["visibility"] = 'hidden';
         food.setAttribute("draggable", "false");
+        food.setAttribute("ondragstart", "return false");
+        food.classList.remove("grabable");
+        food.classList.remove("cutable");
       });
       sol.append(...placedFood);
       $("#solved").append(sol);
@@ -152,6 +159,7 @@ function drop(ev, el) {
       //$(".cake").each(function(index, slice) {
       //  slice.setAttribute("draggable", "false");
       //});
+      checkCutableExercise(ev);
     }
       break;
     default:
@@ -262,7 +270,6 @@ function cut(event) {
   var eventId = event.currentTarget.id;
   var itemType = "";
   $("#" + eventId + " .item").each(function (index) {
-    console.log($(this).attr("data-size"));
     values += parseFloat($(this).attr("data-size"));
     itemType = $(this).attr("class").split(' ')[1];
   });
@@ -271,26 +278,31 @@ function cut(event) {
     if (pizzaSliceCount < 8 && values.toFixed(2) == 1) {
       pizzaSliceCount += 1;
       drawSectors(event.currentTarget.id, itemType);
+      checkCutablePizza(event);
     }
   }
   else if (eventId == melonId) {
     if (melonSliceCount < 8 && values.toFixed(2) == 1) {
       melonSliceCount += 1;
       drawSectors(event.currentTarget.id, itemType);
+      checkCutableMelon(event);
     }
   }
   else if (eventId == cakeId) {
     if (cakeSliceCount < 8 && values.toFixed(2) == 1) {
       cakeSliceCount += 1;
       drawSectors(event.currentTarget.id, itemType);
+      checkCutableCake(event);
     }
   }
   else if (eventId == exerciseId) {
     if (exerciseSliceCount < 8 && values.toFixed(2) == 1) {
       exerciseSliceCount += 1;
       drawSectors(event.currentTarget.id, itemType, true);
+      checkCutableExercise(event);
     }
   }
+  
 
 }
 
@@ -413,14 +425,12 @@ function generateTask() {
   // Generate random numbers
   var childNumber = Math.floor(Math.random() * 3);
   var foodNumber = Math.floor(Math.random() * 3);
-  var denominator = Math.floor(Math.random() * 8) + 1;
+  denominator = Math.floor(Math.random() * 8) + 1;
   numerator = Math.floor(Math.random() * denominator) + 1;
 
   exerciseSliceCount = 1;
 
   // Set fraction value and create HTML element
-  console.log("numerator" + numerator);
-  console.log("denominator" + denominator);
   randomFraction = numerator / denominator;
   var block = document.createElement('div');
   block.innerHTML = createFraction(numerator, denominator);
@@ -451,14 +461,13 @@ function resetItem() {
   drawSectors(exerciseId, itemType, true);
 }
 
-function checkCutable(event) {
+function checkCutablePizza(event) {
   var eventId = event.currentTarget.id;
   var values = 0;
   $("#" + eventId + " .item").each(function (index) {
-    console.log($(this).attr("data-size"));
     values += parseFloat($(this).attr("data-size"));
   });
-  if(values.toFixed(2) == 1){
+  if(values.toFixed(2) == 1 && exerciseSliceCount != maxSliceCount && !(pizzaSliceCount == denom1)){
     $("#" + eventId + " .item").each(function (index) {
       $(this).removeClass("grabable");
       $(this).addClass("cutable");
@@ -470,8 +479,68 @@ function checkCutable(event) {
       $(this).addClass("grabable");
     });
   }
+}
 
+function checkCutableMelon(event) {
+  var eventId = event.currentTarget.id;
+  var values = 0;
+  $("#" + eventId + " .item").each(function (index) {
+   
+    values += parseFloat($(this).attr("data-size"));
+  });
+  if(values.toFixed(2) == 1 && exerciseSliceCount != maxSliceCount && !(melonSliceCount == denom2)){
+    $("#" + eventId + " .item").each(function (index) {
+      $(this).removeClass("grabable");
+      $(this).addClass("cutable");
+    });
+  }
+  else{
+    $("#" + eventId + " .item").each(function (index) {
+      $(this).removeClass("cutable");
+      $(this).addClass("grabable");
+    });
+  }
+}
 
+function checkCutableCake(event) {
+  var eventId = event.currentTarget.id;
+  var values = 0;
+  $("#" + eventId + " .item").each(function (index) {
+    
+    values += parseFloat($(this).attr("data-size"));
+  });
+  if(values.toFixed(2) == 1 && exerciseSliceCount != maxSliceCount && !(cakeSliceCount == denom3)){
+    $("#" + eventId + " .item").each(function (index) {
+      $(this).removeClass("grabable");
+      $(this).addClass("cutable");
+    });
+  }
+  else{
+    $("#" + eventId + " .item").each(function (index) {
+      $(this).removeClass("cutable");
+      $(this).addClass("grabable");
+    });
+  }
+}
+
+function checkCutableExercise(event) {
+  var eventId = event.currentTarget.id;
+  var values = 0;
+  $("#" + eventId + " .item").each(function (index) {
+    values += parseFloat($(this).attr("data-size"));
+  });
+  if(values.toFixed(2) == 1 && exerciseSliceCount != maxSliceCount && !(exerciseSliceCount == denominator)){
+    $("#" + eventId + " .item").each(function (index) {
+      $(this).removeClass("grabable");
+      $(this).addClass("cutable");
+    });
+  }
+  else{
+    $("#" + eventId + " .item").each(function (index) {
+      $(this).removeClass("cutable");
+      $(this).addClass("grabable");
+    });
+  }
 }
 
 function showResult(){
