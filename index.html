@@ -189,13 +189,27 @@
                     </div>
                     <div class="table-cell">
                         <div class="foodSpot" id="foodSpot2" ondrop="drop(event, this)" ondragover="allowDrop(event)"
-                            onclick="cut(event)" onmouseover="checkCutableMelon(event)"">
+                            onclick="cut(event)" onmouseover="checkCutableMelon(event)">
                         </div>
                     </div>
                     <div class="table-cell">
                         <div class="foodSpot" id="foodSpot3" ondrop="drop(event, this)" ondragover="allowDrop(event)"
-                            onclick="cut(event)" onmouseover="checkCutableCake(event)"">
+                            onclick="cut(event)" onmouseover="checkCutableCake(event)">
                         </div>
+                    </div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">
+                        <input type="image" id="trash1" src="trashCan.png" name="submit" width="50em" height="50em" alt="submit"
+                        onclick="resetItem('foodSpot1')" />
+                    </div>
+                    <div class="table-cell">
+                        <input type="image" id="trash2" src="trashCan.png" name="submit" width="50em" height="50em" alt="submit"
+                        onclick="resetItem('foodSpot2')" />
+                    </div>
+                    <div class="table-cell">
+                        <input type="image" id="trash3" src="trashCan.png" name="submit" width="50em" height="50em" alt="submit"
+                            onclick="resetItem('foodSpot3')" />
                     </div>
                 </div>
             </div>
@@ -226,7 +240,7 @@
                 <div class="foodSpot" id="foodSpot4" ondrop="drop(event, this)" ondragover="allowDrop(event)"
                     onclick="cut(event)" onmouseover="checkCutableExercise(event)"></div>
                 <input type="image" id="trash" src="trashCan.png" name="submit" width="50em" height="50em" alt="submit"
-                    onclick="resetItem()" />
+                    onclick="resetItem('foodSpot4')" />
                 <div id="scorefield"></div>
             </div>
             <div id="solved"></div>

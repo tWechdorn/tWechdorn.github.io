@@ -404,7 +404,7 @@ function manageExercise() {
       spawned = true;
     }
     if (target.style.backgroundColor == "green" && !spawned) {
-      target.style.backgroundColor = "white";
+      target.style.backgroundColor = "transparent";
       generateTask();
       spawned = true;
     }
@@ -452,13 +452,39 @@ function generateTask() {
   drawSectors(exerciseId, itemTypes[foodNumber], true);
 }
 
-function resetItem() {
-  let item = $('#' + exerciseId + ' .item');
+function resetItem(itemId) {
+  let targetName = '';
+  let exerciseBool = false;
+  
+  if(itemId == pizzaId) {
+    pizzaSliceCount = 1;
+    targetName = '#target1';
+  }
+  else if(itemId == melonId) {
+    melonSliceCount = 1;
+    targetName = '#target2';
+  }
+  else if(itemId == cakeId) {
+    cakeSliceCount = 1;
+    targetName = '#target3';
+  }
+  else {
+    exerciseSliceCount = 1;
+    targetName = '#target4';
+    exerciseBool = true;
+  }
+
+  let item = $('#' + itemId + ' .item');
+  if(item.length === 0){
+    item = $(targetName + ' .item');
+  }
   let itemType = item.attr("class").split(' ')[1];
-  $('#target4').empty();
-  $('#' + exerciseId).empty();
-  exerciseSliceCount = 1;
-  drawSectors(exerciseId, itemType, true);
+
+  $('#' + itemId).empty();
+  $(targetName).empty();
+  $(targetName).css("backgroundColor", "transparent");
+  $(targetName).attr("ondrop", "drop(event, this)");
+  drawSectors(itemId, itemType, exerciseBool);
 }
 
 function checkCutablePizza(event) {
